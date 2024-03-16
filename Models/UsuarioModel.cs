@@ -7,10 +7,10 @@ namespace Api_test.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Genero { get; set; }
+        public required string Nome { get; set; }
+        public required string Genero { get; set; }
         public int Idade { get; set; }
-        public string Endereco { get; set; }
+        public required string Endereco { get; set; }
         public CargoEnum Cargo { get; set; }
         public AreaEnum Area { get; set; }
         public bool Ativo { get; set; }
