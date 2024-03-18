@@ -13,7 +13,6 @@ public class UsuarioController : ControllerBase
         _context = context;
     }
 
-    [HttpGet]
-    public async 
-
+    [HttpDelete]
+    DeleteUsuario
 }

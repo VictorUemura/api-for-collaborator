@@ -7,6 +7,6 @@ namespace Api_test.Models
         public UsuarioContext(DbContextOptions<UsuarioContext> options) : base(options)
         {
         }
-        public DbSet<UsuarioContext> usuarioItems { get; set; } = null!;
+        public DbSet<UsuarioModel> usuarioItems { get; set; } = null!;
     }
 }
