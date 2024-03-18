@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj": {}
+    "c:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj": {
+    "c:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj",
+        "projectUniqueName": "c:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj",
+        "projectPath": "c:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj",
         "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\obj\\",
+        "outputPath": "c:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"

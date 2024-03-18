@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9UeBTfz+dAD8AFVpAO8rcwjCnz1oZ6oro2TgI2qlllwHThuLzMgoRA0yWZPKqA2Fr1i0Q1PBkFMlSwFxaPFRqQ==",
+  "dgSpecHash": "5SMmp3j75ehjQvhZol/8BmHLPTObET6vMh3YW76z3Ftt7pOZaSplPcOPJrvSRaqILCETyJHb/941b9pbHeCj8Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj",
+  "projectFilePath": "c:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\Api\\Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.3\\microsoft.entityframeworkcore.8.0.3.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.3\\microsoft.entityframeworkcore.abstractions.8.0.3.nupkg.sha512",
