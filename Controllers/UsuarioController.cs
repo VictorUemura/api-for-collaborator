@@ -27,4 +27,26 @@ public class UsuarioController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<UsuarioModel>> GetUsuarioModel(int id)
+    {
+        var usuarioModel = await _context.UsuarioItems.FindAsync(id);
+
+        if (usuarioModel == null)
+        {
+            return NotFound();
+        }
+
+        return usuarioModel;
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<UsuarioModel>> PostUsuarioModel(UsuarioModel UsuarioModel)
+    {
+        _context.UsuarioItems.Add(UsuarioModel);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction(nameof(GetUsuarioModel), new { id = UsuarioModel.Id }, UsuarioModel);
+    }
 }
