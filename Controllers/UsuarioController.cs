@@ -14,6 +14,13 @@ namespace Api.Controllers
         {
             _context = context;
         }
+        // Method: GET
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UsuarioModel>>> GetUsuarioModel()
+        {
+            return await _context.UsuarioItems.ToListAsync();
+        }
+        // Method: DELETE
         [HttpDelete]
         public async Task<IActionResult> DeleteUsuarioModel(int id)
         {
@@ -27,6 +34,7 @@ namespace Api.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
+        // Method: GET/id
         [HttpGet("{id}")]
         public async Task<ActionResult<UsuarioModel>> GetUsuarioModel(int id)
         {
@@ -39,6 +47,7 @@ namespace Api.Controllers
 
             return usuarioModel;
         }
+        // Method: POST
         [HttpPost]
         public async Task<ActionResult<UsuarioModel>> PostUsuarioModel(UsuarioModel UsuarioModel)
         {
@@ -47,7 +56,7 @@ namespace Api.Controllers
 
             return CreatedAtAction(nameof(GetUsuarioModel), new { id = UsuarioModel.Id }, UsuarioModel);
         }
-
+        // Method: PUT
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUsuarioModel(long id, UsuarioModel usuario)
         {
