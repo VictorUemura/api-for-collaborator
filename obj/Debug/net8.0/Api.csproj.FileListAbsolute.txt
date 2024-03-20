@@ -106,3 +106,7 @@ C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\obj\Debug\net8.0\refin
 C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\obj\Debug\net8.0\Api.pdb
 C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\obj\Debug\net8.0\Api.genruntimeconfig.cache
 C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\obj\Debug\net8.0\ref\Api.dll
+C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\bin\Debug\net8.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\bin\Debug\net8.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\victo\OneDrive\Estudos\asp.net\api-test\api-test\bin\Debug\net8.0\Newtonsoft.Json.Bson.dll

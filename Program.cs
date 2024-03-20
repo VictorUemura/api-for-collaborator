@@ -1,8 +1,14 @@
 using Api_test.Models;
+using JsonPatchSample;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddControllers(options =>
+{
+    options.InputFormatters.Insert(0, MyJPIF.GetJsonPatchInputFormatter());
+});
+builder.Services.AddControllers()
+    .AddNewtonsoftJson();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<UsuarioContext>(opt =>
     opt.UseInMemoryDatabase("UsuarioList"));

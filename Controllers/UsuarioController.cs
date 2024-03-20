@@ -1,5 +1,6 @@
 using Api_test.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -89,6 +90,51 @@ namespace Api.Controllers
         {
             return _context.UsuarioItems.Any(e => e.Id == id);
         }
+
+        // Method: PATCH
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> PatchUsuarioModel(int id, JsonPatchDocument<UsuarioModel> patchDocument)
+        {
+            if (patchDocument == null)
+            {
+                return BadRequest("O documento de patch não pode ser nulo.");
+            }
+
+            var usuarioModel = await _context.UsuarioItems.FindAsync(id);
+
+            if (usuarioModel == null)
+            {
+                return NotFound();
+            }
+
+            patchDocument.ApplyTo(usuarioModel, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _context.Entry(usuarioModel).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UsuarioModelExist(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
+        }
+
     }
 
 }
