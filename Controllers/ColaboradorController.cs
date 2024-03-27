@@ -16,7 +16,7 @@ namespace Api.Controllers
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UsuarioModel>>> GetColaboradorModel()
+        public async Task<ActionResult<IEnumerable<ColaboradorModel>>> GetColaboradorModel()
         {
             return await _context.ColaboradorItems.ToListAsync();
         }
@@ -29,7 +29,7 @@ namespace Api.Controllers
                 return NotFound();
             }
 
-            _context.UsuarioItems.Remove(colaborador);
+            _context.ColaboradorItems.Remove(colaboradorModel);
             await _context.SaveChangesAsync();
             return NoContent();
         }
@@ -51,12 +51,12 @@ namespace Api.Controllers
             _context.ColaboradorItems.Add(ColaboradorModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetColaboradorModel), new { id = ColaboradorModel.Id }, ColaboradorModel);
+            return CreatedAtAction(nameof(GetColaboradorModel), new { id = ColaboradorModel.id }, ColaboradorModel);
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> PutColaboradorModel(long id, ColaboradorModel colaboradorModel)
         {
-            if (id != colaboradorModel.Id)
+            if (id != colaboradorModel.id)
             {
                 return BadRequest();
             }
@@ -83,7 +83,7 @@ namespace Api.Controllers
 
         private bool ColaboradorModelExist(long id)
         {
-            return _context.ColaboradorItems.Any(e => e.Id == id);
+            return _context.ColaboradorItems.Any(e => e.id == id);
         }
 
         [HttpPatch("{id}")]
