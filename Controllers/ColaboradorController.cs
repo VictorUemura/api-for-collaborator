@@ -8,60 +8,60 @@ namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class ColaboradorController : ControllerBase
     {
-        private readonly UsuarioContext _context;
-        public UsuarioController(UsuarioContext context)
+        private readonly ColaboradorContext _context;
+        public ColaboradorController(ColaboradorContext context)
         {
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UsuarioModel>>> GetUsuarioModel()
+        public async Task<ActionResult<IEnumerable<UsuarioModel>>> GetColaboradorModel()
         {
-            return await _context.UsuarioItems.ToListAsync();
+            return await _context.ColaboradorItems.ToListAsync();
         }
         [HttpDelete]
-        public async Task<IActionResult> DeleteUsuarioModel(int id)
+        public async Task<IActionResult> DeleteColaboradorModel(int id)
         {
-            var usuario = await _context.UsuarioItems.FindAsync(id);
-            if (usuario == null)
+            var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
+            if (colaboradorModel == null)
             {
                 return NotFound();
             }
 
-            _context.UsuarioItems.Remove(usuario);
+            _context.UsuarioItems.Remove(colaborador);
             await _context.SaveChangesAsync();
             return NoContent();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<UsuarioModel>> GetUsuarioModel(int id)
+        public async Task<ActionResult<ColaboradorModel>> GetColaboradorModel(int id)
         {
-            var usuarioModel = await _context.UsuarioItems.FindAsync(id);
+            var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
 
-            if (usuarioModel == null)
+            if (colaboradorModel == null)
             {
                 return NotFound();
             }
 
-            return usuarioModel;
+            return colaboradorModel;
         }
         [HttpPost]
-        public async Task<ActionResult<UsuarioModel>> PostUsuarioModel(UsuarioModel UsuarioModel)
+        public async Task<ActionResult<ColaboradorModel>> PostColaboradorModel(ColaboradorModel ColaboradorModel)
         {
-            _context.UsuarioItems.Add(UsuarioModel);
+            _context.ColaboradorItems.Add(ColaboradorModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUsuarioModel), new { id = UsuarioModel.Id }, UsuarioModel);
+            return CreatedAtAction(nameof(GetColaboradorModel), new { id = ColaboradorModel.Id }, ColaboradorModel);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUsuarioModel(long id, UsuarioModel usuario)
+        public async Task<IActionResult> PutColaboradorModel(long id, ColaboradorModel colaboradorModel)
         {
-            if (id != usuario.Id)
+            if (id != colaboradorModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(usuario).State = EntityState.Modified;
+            _context.Entry(colaboradorModel).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +69,7 @@ namespace Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioModelExist(id))
+                if (!ColaboradorModelExist(id))
                 {
                     return NotFound();
                 }
@@ -81,34 +81,34 @@ namespace Api.Controllers
             return NoContent();
         }
 
-        private bool UsuarioModelExist(long id)
+        private bool ColaboradorModelExist(long id)
         {
-            return _context.UsuarioItems.Any(e => e.Id == id);
+            return _context.ColaboradorItems.Any(e => e.Id == id);
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchUsuarioModel(int id, JsonPatchDocument<UsuarioModel> patchDocument)
+        public async Task<IActionResult> PatchColaboradorModel(int id, JsonPatchDocument<ColaboradorModel> patchDocument)
         {
             if (patchDocument == null)
             {
                 return BadRequest("O documento de patch não pode ser nulo.");
             }
 
-            var usuarioModel = await _context.UsuarioItems.FindAsync(id);
+            var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
 
-            if (usuarioModel == null)
+            if (colaboradorModel == null)
             {
                 return NotFound();
             }
 
-            patchDocument.ApplyTo(usuarioModel, ModelState);
+            patchDocument.ApplyTo(colaboradorModel, ModelState);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Entry(usuarioModel).State = EntityState.Modified;
+            _context.Entry(colaboradorModel).State = EntityState.Modified;
 
             try
             {
@@ -116,7 +116,7 @@ namespace Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UsuarioModelExist(id))
+                if (!ColaboradorModelExist(id))
                 {
                     return NotFound();
                 }

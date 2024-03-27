@@ -3,7 +3,7 @@ using Api_test.Enums;
 
 namespace Api_test.Models
 {
-    public class UsuarioModel
+    public class ColaboradorModel
     {
         [Key]
         public int Id { get; set; }

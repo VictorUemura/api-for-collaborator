@@ -10,8 +10,8 @@ builder.Services.AddControllers(options =>
 builder.Services.AddControllers()
     .AddNewtonsoftJson();
 builder.Services.AddControllers();
-builder.Services.AddDbContext<UsuarioContext>(opt =>
-    opt.UseInMemoryDatabase("UsuarioList"));
+builder.Services.AddDbContext<ColaboradorContext>(opt =>
+    opt.UseInMemoryDatabase("ColaboradorList"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

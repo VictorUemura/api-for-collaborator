@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "z01PqY+45SMGg50JSpn/fXD42OME0VlZabg8pQeZraO8OZ9kDsRAf1PJKK+tklWzvFBYIGmXSK8xGwrXcFx9rA==",
+  "dgSpecHash": "nWuf+MNXR/Az1WbVn1lbUgceSaNHhmk2BsfC1ZrZi0ZEHM/BaBcfhpuJX6fI2jvWUSui2g64j6D2RiEhPYnXqQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\api-test\\Api.csproj",
+  "projectFilePath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\8.0.3\\microsoft.aspnetcore.jsonpatch.8.0.3.nupkg.sha512",
     "C:\\Users\\victo\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\8.0.3\\microsoft.aspnetcore.mvc.newtonsoftjson.8.0.3.nupkg.sha512",
