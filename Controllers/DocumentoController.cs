@@ -9,60 +9,60 @@ namespace Api_test.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColaboradorController : ControllerBase
+    public class DocumentoController : ControllerBase
     {
-        private readonly ColaboradorContext _context;
-        public ColaboradorController(ColaboradorContext context)
+        private readonly DocumentoContext _context;
+        public DocumentoController(DocumentoContext context)
         {
             _context = context;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ColaboradorModel>>> GetColaboradorModel()
+        public async Task<ActionResult<IEnumerable<DocumentoModel>>> GetDocumentoModel()
         {
-            return await _context.ColaboradorItems.ToListAsync();
+            return await _context.DocumentoItems.ToListAsync();
         }
         [HttpDelete]
-        public async Task<IActionResult> DeleteColaboradorModel(int id)
+        public async Task<IActionResult> DeleteDocumentoModel(int id)
         {
-            var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
-            if (colaboradorModel == null)
+            var documentoModel = await _context.DocumentoItems.FindAsync(id);
+            if (documentoModel == null)
             {
                 return NotFound();
             }
 
-            _context.ColaboradorItems.Remove(colaboradorModel);
+            _context.DocumentoItems.Remove(documentoModel);
             await _context.SaveChangesAsync();
             return NoContent();
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<ColaboradorModel>> GetColaboradorModel(int id)
+        public async Task<ActionResult<DocumentoModel>> GetDocumentoModel(int id)
         {
-            var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
+            var documentoModel = await _context.DocumentoItems.FindAsync(id);
 
-            if (colaboradorModel == null)
+            if (documentoModel == null)
             {
                 return NotFound();
             }
 
-            return colaboradorModel;
+            return documentoModel;
         }
         [HttpPost]
-        public async Task<ActionResult<ColaboradorModel>> PostColaboradorModel(ColaboradorModel ColaboradorModel)
+        public async Task<ActionResult<DocumentoModel>> PostDocumentoModel(DocumentoModel DocumentoModel)
         {
-            _context.ColaboradorItems.Add(ColaboradorModel);
+            _context.DocumentoItems.Add(DocumentoModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetColaboradorModel), new { id = ColaboradorModel.Id }, ColaboradorModel);
+            return CreatedAtAction(nameof(GetDocumentoModel), new { id = DocumentoModel.Id }, DocumentoModel);
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColaboradorModel(long id, ColaboradorModel colaboradorModel)
+        public async Task<IActionResult> PutDocumentoModel(long id, DocumentoModel documentoModel)
         {
-            if (id != colaboradorModel.Id)
+            if (id != documentoModel.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(colaboradorModel).State = EntityState.Modified;
+            _context.Entry(documentoModel).State = EntityState.Modified;
 
             try
             {
@@ -70,7 +70,7 @@ namespace Api_test.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColaboradorModelExist(id))
+                if (!DocumentoModelExist(id))
                 {
                     return NotFound();
                 }
@@ -82,34 +82,34 @@ namespace Api_test.Controllers
             return NoContent();
         }
 
-        private bool ColaboradorModelExist(long id)
+        private bool DocumentoModelExist(long id)
         {
-            return _context.ColaboradorItems.Any(e => e.Id == id);
+            return _context.DocumentoItems.Any(e => e.Id == id);
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchColaboradorModel(int id, JsonPatchDocument<ColaboradorModel> patchDocument)
+        public async Task<IActionResult> PatchDocumentoModel(int id, JsonPatchDocument<DocumentoModel> patchDocument)
         {
             if (patchDocument == null)
             {
                 return BadRequest("O documento de patch não pode ser nulo.");
             }
 
-            var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
+            var documentoModel = await _context.DocumentoItems.FindAsync(id);
 
-            if (colaboradorModel == null)
+            if (documentoModel == null)
             {
                 return NotFound();
             }
 
-            patchDocument.ApplyTo(colaboradorModel, ModelState);
+            patchDocument.ApplyTo(documentoModel, ModelState);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Entry(colaboradorModel).State = EntityState.Modified;
+            _context.Entry(documentoModel).State = EntityState.Modified;
 
             try
             {
@@ -117,7 +117,7 @@ namespace Api_test.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ColaboradorModelExist(id))
+                if (!DocumentoModelExist(id))
                 {
                     return NotFound();
                 }
