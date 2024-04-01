@@ -1,4 +1,4 @@
-namespace Api_test.Models
+namespace Api_test.Services
 {
     public class ServiceResponse<T>
     {
@@ -7,5 +7,3 @@ namespace Api_test.Models
         public bool Sucesso { get; set; } = true;
     }
 }
-
-

@@ -20,6 +20,7 @@
           "net8.0"
         ],
         "sources": {
+          "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\Microsoft.VisualStudio.Web.CodeGeneration.Design": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -70,6 +71,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[8.0.3, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[8.0.2, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",

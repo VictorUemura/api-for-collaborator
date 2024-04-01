@@ -1,4 +1,4 @@
-namespace Api_colab.Enums
+namespace Api_test.Enums
 {
     public enum Cargo
     {

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Api_test.Enums;
 
 namespace Api_test.Models
 {
@@ -6,8 +7,10 @@ namespace Api_test.Models
     {
         [Key]
         public int id { get; set; }
-        public required string? nome { get; set; }
-        public required string? genero { get; set; }
+        [Required]
+        public string? nome { get; set; }
+        [Required]
+        public string? genero { get; set; }
         public int idade { get; set; }
         public bool ativo { get; set; }
         public DateTime dataNasc { get; set; }
@@ -15,7 +18,8 @@ namespace Api_test.Models
         public string? email { get; set; }
         public DateTime dataDeCriacao { get; set; } = DateTime.Now.ToLocalTime();
         public DateTime dataDeAlteracao { get; set; } = DateTime.Now.ToLocalTime();
-        public required int cargoId { get; set; }
+        [Required]
+        public Cargo cargo { get; set; }
     }
 }
 

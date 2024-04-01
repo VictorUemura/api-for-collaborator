@@ -1,10 +1,11 @@
 using Api_test.Models;
+using Api_test.Repositories;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Controllers
+namespace Api_test.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
