@@ -10,6 +10,8 @@ namespace Api_test.Models
         public int Id { get; set; }
         [Required]
         public TipoDocumento Tipo { get; set; }
+        [Required]
+        public int IdColaborador { get; set; }
     }
 
 }
