@@ -6,20 +6,20 @@ namespace Api_test.Models
     public class ColaboradorModel
     {
         [Key]
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
-        public string? nome { get; set; }
+        public string? Nome { get; set; }
         [Required]
-        public string? genero { get; set; }
-        public int idade { get; set; }
-        public bool ativo { get; set; }
-        public DateTime dataNasc { get; set; }
-        public string? telefone { get; set; }
-        public string? email { get; set; }
-        public DateTime dataDeCriacao { get; set; } = DateTime.Now.ToLocalTime();
-        public DateTime dataDeAlteracao { get; set; } = DateTime.Now.ToLocalTime();
+        public string? Genero { get; set; }
+        public int Idade { get; set; }
+        public bool Ativo { get; set; }
+        public DateTime DataNasc { get; set; }
+        public string? Telefone { get; set; }
+        public string? Email { get; set; }
+        public DateTime DataDeCriacao { get; set; } = DateTime.Now.ToLocalTime();
+        public DateTime DataDeAlteracao { get; set; } = DateTime.Now.ToLocalTime();
         [Required]
-        public Cargo cargo { get; set; }
+        public Cargo Cargo { get; set; }
     }
 }
 
