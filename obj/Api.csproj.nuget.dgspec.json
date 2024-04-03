@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\Api.csproj": {}
+    "C:\\dev\\api-test\\Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\Api.csproj": {
+    "C:\\dev\\api-test\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\Api.csproj",
+        "projectUniqueName": "C:\\dev\\api-test\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\Api.csproj",
-        "packagesPath": "C:\\Users\\victo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\victo\\OneDrive\\Estudos\\asp.net\\api-test\\obj\\",
+        "projectPath": "C:\\dev\\api-test\\Api.csproj",
+        "packagesPath": "C:\\Users\\USUARIO\\.nuget\\packages\\",
+        "outputPath": "C:\\dev\\api-test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\USUARIO\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Users\\victo\\AppData\\Roaming\\NuGet\\Microsoft.VisualStudio.Web.CodeGeneration.Design": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -44,6 +43,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[8.0.3, )"
@@ -104,7 +107,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
