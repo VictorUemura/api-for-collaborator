@@ -1,6 +1,5 @@
 using Api_test.Models;
 using Api_test.Repositories;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,33 +10,37 @@ namespace Api_test.Controllers
     [ApiController]
     public class DocumentoController : ControllerBase
     {
-        private readonly DocumentoContext _context;
-        public DocumentoController(DocumentoContext context)
+        private readonly ApplicationContext _context;
+
+        public DocumentoController(ApplicationContext context)
         {
             _context = context;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DocumentoModel>>> GetDocumentoModel()
         {
-            return await _context.DocumentoItems.ToListAsync();
+            return await _context.Documentos.ToListAsync();
         }
-        [HttpDelete]
+
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDocumentoModel(int id)
         {
-            var documentoModel = await _context.DocumentoItems.FindAsync(id);
+            var documentoModel = await _context.Documentos.FindAsync(id);
             if (documentoModel == null)
             {
                 return NotFound();
             }
 
-            _context.DocumentoItems.Remove(documentoModel);
+            _context.Documentos.Remove(documentoModel);
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<DocumentoModel>> GetDocumentoModel(int id)
         {
-            var documentoModel = await _context.DocumentoItems.FindAsync(id);
+            var documentoModel = await _context.Documentos.FindAsync(id);
 
             if (documentoModel == null)
             {
@@ -46,14 +49,16 @@ namespace Api_test.Controllers
 
             return documentoModel;
         }
+
         [HttpPost]
-        public async Task<ActionResult<DocumentoModel>> PostDocumentoModel(DocumentoModel DocumentoModel)
+        public async Task<ActionResult<DocumentoModel>> PostDocumentoModel(DocumentoModel documentoModel)
         {
-            _context.DocumentoItems.Add(DocumentoModel);
+            _context.Documentos.Add(documentoModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetDocumentoModel), new { id = DocumentoModel.Id }, DocumentoModel);
+            return CreatedAtAction(nameof(GetDocumentoModel), new { id = documentoModel.Id }, documentoModel);
         }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDocumentoModel(long id, DocumentoModel documentoModel)
         {
@@ -84,7 +89,7 @@ namespace Api_test.Controllers
 
         private bool DocumentoModelExist(long id)
         {
-            return _context.DocumentoItems.Any(e => e.Id == id);
+            return _context.Documentos.Any(e => e.Id == id);
         }
 
         [HttpPatch("{id}")]
@@ -95,7 +100,7 @@ namespace Api_test.Controllers
                 return BadRequest("O documento de patch não pode ser nulo.");
             }
 
-            var documentoModel = await _context.DocumentoItems.FindAsync(id);
+            var documentoModel = await _context.Documentos.FindAsync(id);
 
             if (documentoModel == null)
             {
@@ -129,7 +134,5 @@ namespace Api_test.Controllers
 
             return NoContent();
         }
-
     }
-
 }

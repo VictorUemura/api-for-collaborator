@@ -11,10 +11,10 @@ namespace Api_test.Controllers
     [ApiController]
     public class ColaboradorController : ControllerBase
     {
-        private readonly ColaboradorContext _context;
+        private readonly ApplicationContext _context;
         private readonly IValidator<ColaboradorModel> _validator;
 
-        public ColaboradorController(ColaboradorContext context, IValidator<ColaboradorModel> validator)
+        public ColaboradorController(ApplicationContext context, IValidator<ColaboradorModel> validator)
         {
             _context = context;
             _validator = validator;
@@ -22,7 +22,7 @@ namespace Api_test.Controllers
 
         private bool ColaboradorModelExist(long id)
         {
-            return _context.ColaboradorItems.Any(e => e.Id == id);
+            return _context.Colaboradores.Any(e => e.Id == id);
         }
 
         [HttpGet]
@@ -30,7 +30,7 @@ namespace Api_test.Controllers
         {
             try
             {
-                var colaboradores = await _context.ColaboradorItems.ToListAsync();
+                var colaboradores = await _context.Colaboradores.ToListAsync();
                 return Ok(new ServiceResponse<IEnumerable<ColaboradorModel>> { Dados = colaboradores, Mensagem = "Colaboradores recuperados com sucesso." });
             }
             catch (Exception ex)
@@ -44,13 +44,13 @@ namespace Api_test.Controllers
         {
             try
             {
-                var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
+                var colaboradorModel = await _context.Colaboradores.FindAsync(id);
                 if (colaboradorModel == null)
                 {
                     return NotFound(new ServiceResponse<object> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
                 }
 
-                _context.ColaboradorItems.Remove(colaboradorModel);
+                _context.Colaboradores.Remove(colaboradorModel);
                 await _context.SaveChangesAsync();
                 return Ok(new ServiceResponse<object> { Mensagem = "Colaborador excluído com sucesso." });
             }
@@ -65,7 +65,7 @@ namespace Api_test.Controllers
         {
             try
             {
-                var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
+                var colaboradorModel = await _context.Colaboradores.FindAsync(id);
 
                 if (colaboradorModel == null)
                 {
@@ -91,7 +91,7 @@ namespace Api_test.Controllers
 
             try
             {
-                _context.ColaboradorItems.Add(colaboradorModel);
+                _context.Colaboradores.Add(colaboradorModel);
                 await _context.SaveChangesAsync();
 
                 return CreatedAtAction(nameof(GetColaboradorModel), new { id = colaboradorModel.Id }, new ServiceResponse<ColaboradorModel> { Dados = colaboradorModel, Mensagem = "Colaborador criado com sucesso." });
@@ -145,7 +145,7 @@ namespace Api_test.Controllers
                     return BadRequest(new ServiceResponse<ColaboradorModel> { Mensagem = "O documento de patch não pode ser nulo.", Sucesso = false });
                 }
 
-                var colaboradorModel = await _context.ColaboradorItems.FindAsync(id);
+                var colaboradorModel = await _context.Colaboradores.FindAsync(id);
 
                 if (colaboradorModel == null)
                 {
@@ -184,7 +184,7 @@ namespace Api_test.Controllers
 
         private bool ColaboradorModelExist(int id)
         {
-            return _context.ColaboradorItems.Any(e => e.Id == id);
+            return _context.Colaboradores.Any(e => e.Id == id);
         }
     }
 }
