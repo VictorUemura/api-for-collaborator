@@ -1,6 +1,7 @@
 using Api_test.Models;
 using Api_test.Repositories;
 using Api_test.Utilities;
+using Api_test.Validators;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 
