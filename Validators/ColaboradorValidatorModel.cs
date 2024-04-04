@@ -3,7 +3,7 @@ using Api_test.Models;
 
 namespace Api_test.Validators
 {
-    public class ColaboradorValidatorModel : AbstractValidator<ColaboradorModel>
+    public class ColaboradorValidatorModel : AbstractValidator<ColaboradorDTO>
     {
         public ColaboradorValidatorModel()
         {
