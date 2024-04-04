@@ -38,6 +38,7 @@ namespace Api_test.Controllers
             {
                 return StatusCode(500, new ServiceResponse<IEnumerable<ColaboradorModel>> { Mensagem = $"Ocorreu um erro ao recuperar os colaboradores: {ex.Message}", Sucesso = false });
             }
+
         }
 
         [HttpDelete("{id}")]

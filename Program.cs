@@ -7,7 +7,11 @@ using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase("ApiContext"));
+var myConnection = "Server=localhost;Port=3306;Database=colab;Uid=root;Pwd=;charset=utf8;";
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
+builder.Services.AddDbContext<ApplicationContext>(options =>
+        options.UseMySql(myConnection, serverVersion));
+
 
 builder.Services.AddControllers(options =>
 {
