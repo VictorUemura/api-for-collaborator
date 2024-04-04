@@ -73,11 +73,23 @@ namespace Api.Migrations
                     SET NEW.DataDeAlteracao = CURRENT_TIMESTAMP();
                 END;
             ");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Documentos_Colaboradores",
+                table: "documentos",
+                column: "IdColaborador",
+                principalTable: "colaboradores",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Documentos_Colaboradores",
+                table: "documentos");
+
             migrationBuilder.Sql("DROP TRIGGER IF EXISTS atualizar_data_alteracao;");
 
             migrationBuilder.Sql("DROP TRIGGER IF EXISTS atualizar_data_criacao;");
