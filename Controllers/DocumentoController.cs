@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api_test.Services;
+using Api_test.Validators;
+using FluentValidation;
 
 namespace Api_test.Controllers
 {
@@ -16,10 +18,12 @@ namespace Api_test.Controllers
     public class DocumentoController : ControllerBase
     {
         private readonly ApplicationContext _context;
+        private readonly IValidator<DocumentoDTO> _validator;
 
-        public DocumentoController(ApplicationContext context)
+        public DocumentoController(ApplicationContext context, IValidator<DocumentoDTO> validator)
         {
             _context = context;
+            _validator = validator;
         }
 
         [HttpDelete("{id}")]
@@ -52,14 +56,16 @@ namespace Api_test.Controllers
 
                 if (documentoModel == null)
                 {
-                    return NotFound(new ServiceResponse<DocumentoModel> { Mensagem = "Documento não encontrado.", Sucesso = false });
+                    return NotFound(new ServiceResponse<DocumentoDTO> { Mensagem = "Documento não encontrado.", Sucesso = false });
                 }
 
-                return Ok(new ServiceResponse<DocumentoModel> { Dados = documentoModel, Mensagem = "Documento recuperado com sucesso." });
+                var documentoDTO = new DocumentoService().ConverterParaDTO(documentoModel);
+
+                return Ok(new ServiceResponse<DocumentoDTO> { Dados = documentoDTO, Mensagem = "Documento recuperado com sucesso." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<DocumentoModel> { Mensagem = $"Ocorreu um erro ao recuperar o documento: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<DocumentoDTO> { Mensagem = $"Ocorreu um erro ao recuperar o documento: {ex.Message}", Sucesso = false });
             }
         }
 
@@ -68,6 +74,15 @@ namespace Api_test.Controllers
         {
             try
             {
+                /*
+                var validationResult = _validator.Validate(documentoDTO);
+                if (!validationResult.IsValid)
+                {
+                    var erros = validationResult.Errors.Select(e => e.ErrorMessage);
+                    var errosMensagem = string.Join(", ", erros);
+                    return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = validationResult.Errors.First().ErrorMessage, Sucesso = false });
+                }
+                */
                 var documentoModel = new DocumentoService().ConverterParaModel(documentoDTO);
                 _context.Documentos.Add(documentoModel);
                 await _context.SaveChangesAsync();
@@ -83,6 +98,13 @@ namespace Api_test.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDocumento(long id, DocumentoDTO documentoDTO)
         {
+            var validationResult = _validator.Validate(documentoDTO);
+            if (!validationResult.IsValid)
+            {
+                var erros = validationResult.Errors.Select(e => e.ErrorMessage);
+                var errosMensagem = string.Join(", ", erros);
+                return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = validationResult.Errors.First().ErrorMessage, Sucesso = false });
+            }
             try
             {
                 if (id != documentoDTO.Id)

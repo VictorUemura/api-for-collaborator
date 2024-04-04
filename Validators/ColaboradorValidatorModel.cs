@@ -15,6 +15,7 @@ namespace Api_test.Validators
                 .NotEmpty().WithMessage("O gênero do colaborador é obrigatório.");
 
             RuleFor(x => x.Idade)
+                .NotEmpty().WithMessage("A idade do colaborador é obrigatória.")
                 .GreaterThanOrEqualTo(18).WithMessage("A idade do colaborador deve ser igual ou maior que 18 anos.");
 
             RuleFor(x => x.Email)
@@ -28,6 +29,7 @@ namespace Api_test.Validators
                 .NotEmpty().WithMessage("O número de telefone do colaborador é obrigatório.");
 
             RuleFor(x => x.Cargo)
+                .NotEmpty().WithMessage("O cargo do colaborador é obrigatório.")
                 .NotNull().WithMessage("O cargo do colaborador é obrigatório.")
                 .Must(x => Enum.GetNames(typeof(Cargo)).Contains(x)).WithMessage("Cargo inválido.");
         }

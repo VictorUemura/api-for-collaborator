@@ -1,9 +1,6 @@
 using FluentValidation;
 using Api_test.Models;
 using Api_test.Enums;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Linq;
 
 namespace Api_test.Validators
 {
@@ -12,25 +9,18 @@ namespace Api_test.Validators
         public DocumentoValidatorModel()
         {
             RuleFor(x => x.Tipo)
+            .NotNull().WithMessage("O tipo do documento é obrigatório.")
                 .NotEmpty().WithMessage("O tipo do documento é obrigatório.")
-                .Must(BeValidTipoDocumento).WithMessage("Tipo de documento inválido.");
+                .Must(x => Enum.GetNames(typeof(TipoDocumento)).Contains(x)).WithMessage("Tipo de documento inválido.");
 
             RuleFor(x => x.IdColaborador)
+            .NotNull().WithMessage("O ID do colaborador é obrigatório.")
                 .NotEmpty().WithMessage("O ID do colaborador é obrigatório.");
 
             RuleFor(x => x.Arquivo)
+            .NotEmpty().WithMessage("O arquivo do documento é obrigatório.")
                 .NotNull().WithMessage("O arquivo do documento é obrigatório.")
-                .Must(BePdfFile).WithMessage("O arquivo deve ser do tipo PDF.");
-        }
-
-        private bool BeValidTipoDocumento(string tipo)
-        {
-            return Enum.TryParse<TipoDocumento>(tipo, out _);
-        }
-
-        private bool BePdfFile(IFormFile arquivo)
-        {
-            return arquivo != null && arquivo.ContentType == "application/pdf";
+                .Must(x => x.FileName.EndsWith(".pdf")).WithMessage("O arquivo deve ser do tipo PDF.");
         }
     }
 }
