@@ -1,4 +1,4 @@
-namespace Api_test.Models
+namespace Api_test.Services
 {
     public class ServiceResponse<T>
     {

@@ -12,6 +12,8 @@ namespace Api_test.Models
         public TipoDocumento Tipo { get; set; }
         [Required]
         public int IdColaborador { get; set; }
+        [Required]
+        public IFormFile? Arquivo { get; set; }
     }
 
 }
