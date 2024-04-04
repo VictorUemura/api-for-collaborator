@@ -1,12 +1,7 @@
 using Api_test.Models;
 using Api_test.Repositories;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Api_test.Services;
 using Api_test.Validators;
 using FluentValidation;
@@ -47,6 +42,21 @@ namespace Api_test.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetListaDocumento()
+        {
+            try
+            {
+                var documentos = await _context.Documentos.ToListAsync();
+                var documentosInfoDTO = documentos.Select(c => new DocumentoService().ConvertModelParaInfoDTO(c));
+                return Ok(new ServiceResponse<IEnumerable<DocumentoInfoDTO>> { Dados = documentosInfoDTO, Mensagem = "Informacoes de documentos recuperadas com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ServiceResponse<IEnumerable<DocumentoInfoDTO>> { Mensagem = $"Ocorreu um erro ao recuperar os documentos: {ex.Message}", Sucesso = false });
+            }
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetDocumento(int id)
         {
@@ -61,14 +71,11 @@ namespace Api_test.Controllers
 
                 var documentoDTO = new DocumentoService().ConverterParaDTO(documentoModel);
 
-                // Definindo o tipo de conteúdo para download
                 Response.ContentType = "application/octet-stream";
 
-                // Definindo o nome do arquivo para download
                 string nomeArquivo = $"Documento_{id}.pdf";
-                Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{nomeArquivo}\"");
+                Response.Headers.Append("Content-Disposition", $"attachment; filename=\"{nomeArquivo}\"");
 
-                // Retornando o arquivo como FileContentResult
                 return File(documentoModel.Arquivo, Response.ContentType);
             }
             catch (Exception ex)
@@ -87,10 +94,10 @@ namespace Api_test.Controllers
                 if (!validationResult.IsValid)
                 {
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                    var errosMensagem = string.Join(", ", erros);
-                    return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = validationResult.Errors.First().ErrorMessage, Sucesso = false });
+                    return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = erros.First(), Sucesso = false });
                 }
                 */
+
                 var documentoModel = new DocumentoService().ConverterParaModel(documentoDTO);
                 _context.Documentos.Add(documentoModel);
                 await _context.SaveChangesAsync();
@@ -106,13 +113,14 @@ namespace Api_test.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDocumento(long id, DocumentoDTO documentoDTO)
         {
+            /*
             var validationResult = _validator.Validate(documentoDTO);
             if (!validationResult.IsValid)
             {
                 var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                var errosMensagem = string.Join(", ", erros);
-                return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = validationResult.Errors.First().ErrorMessage, Sucesso = false });
+                return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = erros.First(), Sucesso = false });
             }
+            */
             try
             {
                 if (id != documentoDTO.Id)

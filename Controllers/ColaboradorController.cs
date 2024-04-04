@@ -91,8 +91,7 @@ namespace Api_test.Controllers
             if (!validationResult.IsValid)
             {
                 var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                var errosMensagem = string.Join(", ", erros);
-                return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "Erro de validação: " + errosMensagem, Sucesso = false });
+                return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
             }
 
             try
@@ -122,8 +121,7 @@ namespace Api_test.Controllers
                 if (!validationResult.IsValid)
                 {
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                    var errosMensagem = string.Join(", ", erros);
-                    return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "Erro de validação: " + errosMensagem, Sucesso = false });
+                    return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
                 }
                 var colaboradorModel = new ColaboradorService().ConverterParaModel(colaboradorDTO);
                 _context.Entry(colaboradorModel).State = EntityState.Modified;
