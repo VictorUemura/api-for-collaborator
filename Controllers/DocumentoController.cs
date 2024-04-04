@@ -48,7 +48,7 @@ namespace Api_test.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceResponse<DocumentoModel>>> GetDocumento(int id)
+        public async Task<IActionResult> GetDocumento(int id)
         {
             try
             {
@@ -61,7 +61,15 @@ namespace Api_test.Controllers
 
                 var documentoDTO = new DocumentoService().ConverterParaDTO(documentoModel);
 
-                return Ok(new ServiceResponse<DocumentoDTO> { Dados = documentoDTO, Mensagem = "Documento recuperado com sucesso." });
+                // Definindo o tipo de conteúdo para download
+                Response.ContentType = "application/octet-stream";
+
+                // Definindo o nome do arquivo para download
+                string nomeArquivo = $"Documento_{id}.pdf";
+                Response.Headers.Add("Content-Disposition", $"attachment; filename=\"{nomeArquivo}\"");
+
+                // Retornando o arquivo como FileContentResult
+                return File(documentoModel.Arquivo, Response.ContentType);
             }
             catch (Exception ex)
             {
