@@ -24,6 +24,24 @@ namespace Api_test.Services
             };
         }
 
+        public ColaboradorDTO ConverterParaDTO(ColaboradorModel model)
+        {
+            return new ColaboradorDTO
+            {
+                Id = model.Id,
+                Nome = model.Nome,
+                Genero = model.Genero,
+                Idade = model.Idade,
+                Ativo = model.Ativo,
+                DataNasc = model.DataNasc,
+                Telefone = model.Telefone,
+                Email = model.Email,
+                Cargo = model.Cargo.ToString(),
+                DataDeCriacao = model.DataDeCriacao,
+                DataDeAlteracao = model.DataDeAlteracao
+            };
+        }
+
         private Cargo ParseCargo(string cargo)
         {
             switch (cargo)

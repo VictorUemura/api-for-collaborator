@@ -10,7 +10,7 @@ namespace Api_test.Models
         public int Id { get; set; }
         public string? Tipo { get; set; }
         public int IdColaborador { get; set; }
-        public byte[] Arquivo { get; set; }
+        public IFormFile? Arquivo { get; set; }
     
     }
 }

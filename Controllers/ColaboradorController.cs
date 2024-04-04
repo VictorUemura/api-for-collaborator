@@ -13,9 +13,9 @@ namespace Api_test.Controllers
     public class ColaboradorController : ControllerBase
     {
         private readonly ApplicationContext _context;
-        private readonly IValidator<ColaboradorModel> _validator;
+        private readonly IValidator<ColaboradorDTO> _validator;
 
-        public ColaboradorController(ApplicationContext context, IValidator<ColaboradorModel> validator)
+        public ColaboradorController(ApplicationContext context, IValidator<ColaboradorDTO> validator)
         {
             _context = context;
             _validator = validator;
@@ -27,22 +27,23 @@ namespace Api_test.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ColaboradorModel>>> GetColaboradorModel()
+        public async Task<ActionResult<IEnumerable<ColaboradorDTO>>> GetColaborador()
         {
             try
             {
                 var colaboradores = await _context.Colaboradores.ToListAsync();
-                return Ok(new ServiceResponse<IEnumerable<ColaboradorModel>> { Dados = colaboradores, Mensagem = "Colaboradores recuperados com sucesso." });
+                var colaboradoresDTO = colaboradores.Select(c => new ColaboradorService().ConverterParaDTO(c));
+                return Ok(new ServiceResponse<IEnumerable<ColaboradorDTO>> { Dados = colaboradoresDTO, Mensagem = "Colaboradores recuperados com sucesso." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<IEnumerable<ColaboradorModel>> { Mensagem = $"Ocorreu um erro ao recuperar os colaboradores: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<IEnumerable<ColaboradorDTO>> { Mensagem = $"Ocorreu um erro ao recuperar os colaboradores: {ex.Message}", Sucesso = false });
             }
 
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColaboradorModel(int id)
+        public async Task<IActionResult> DeleteColaborador(int id)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace Api_test.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ColaboradorModel>> GetColaboradorModel(int id)
+        public async Task<ActionResult<ColaboradorDTO>> GetColaborador(int id)
         {
             try
             {
@@ -71,10 +72,11 @@ namespace Api_test.Controllers
 
                 if (colaboradorModel == null)
                 {
-                    return NotFound(new ServiceResponse<ColaboradorModel> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
+                    return NotFound(new ServiceResponse<ColaboradorDTO> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
                 }
 
-                return Ok(new ServiceResponse<ColaboradorModel> { Dados = colaboradorModel, Mensagem = "Colaborador recuperado com sucesso." });
+                var colaboradorDTO = new ColaboradorService().ConverterParaDTO(colaboradorModel);
+                return Ok(new ServiceResponse<ColaboradorDTO> { Dados = colaboradorDTO, Mensagem = "Colaborador recuperado com sucesso." });
             }
             catch (Exception ex)
             {
@@ -83,48 +85,57 @@ namespace Api_test.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<ColaboradorModel>> PostColaboradorModel(ColaboradorModel colaboradorModel)
+        public async Task<ActionResult<ColaboradorDTO>> PostColaborador(ColaboradorDTO colaboradorDTO)
         {
-            var validationResult = _validator.Validate(colaboradorModel);
+            var validationResult = _validator.Validate(colaboradorDTO);
             if (!validationResult.IsValid)
             {
-                return BadRequest(new ServiceResponse<ColaboradorModel> { Mensagem = "Erro de validação", Sucesso = false });
+                var erros = validationResult.Errors.Select(e => e.ErrorMessage);
+                var errosMensagem = string.Join(", ", erros);
+                return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "Erro de validação: " + errosMensagem, Sucesso = false });
             }
 
             try
             {
+                var colaboradorModel = new ColaboradorService().ConverterParaModel(colaboradorDTO);
                 _context.Colaboradores.Add(colaboradorModel);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetColaboradorModel), new { id = colaboradorModel.Id }, new ServiceResponse<ColaboradorModel> { Dados = colaboradorModel, Mensagem = "Colaborador criado com sucesso." });
+                return CreatedAtAction(nameof(GetColaborador), new { id = colaboradorModel.Id }, new ServiceResponse<ColaboradorModel> { Dados = colaboradorModel, Mensagem = "Colaborador criado com sucesso." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<ColaboradorModel> { Mensagem = $"Ocorreu um erro ao criar o colaborador: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<ColaboradorDTO> { Mensagem = $"Ocorreu um erro ao criar o colaborador: {ex.Message}", Sucesso = false });
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColaboradorModel(long id, ColaboradorModel colaboradorModel)
+        public async Task<IActionResult> PutColaborador(long id, ColaboradorDTO colaboradorDTO)
         {
+            var validationResult = _validator.Validate(colaboradorDTO);
             try
             {
-                if (id != colaboradorModel.Id)
+                if (id != colaboradorDTO.Id)
                 {
-                    return BadRequest(new ServiceResponse<ColaboradorModel> { Mensagem = "ID do colaborador na URL não corresponde ao ID do colaborador no corpo da solicitação.", Sucesso = false });
+                    return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "ID do colaborador na URL não corresponde ao ID do colaborador no corpo da solicitação.", Sucesso = false });
                 }
-
+                if (!validationResult.IsValid)
+                {
+                    var erros = validationResult.Errors.Select(e => e.ErrorMessage);
+                    var errosMensagem = string.Join(", ", erros);
+                    return BadRequest(new ServiceResponse<ColaboradorDTO> { Mensagem = "Erro de validação: " + errosMensagem, Sucesso = false });
+                }
+                var colaboradorModel = new ColaboradorService().ConverterParaModel(colaboradorDTO);
                 _context.Entry(colaboradorModel).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
-
-                return NoContent();
+                return Ok(new ServiceResponse<ColaboradorDTO> { Dados = colaboradorDTO, Mensagem = "Colaborador atualizado com sucesso." });
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ColaboradorModelExist((int)id))
                 {
-                    return NotFound(new ServiceResponse<ColaboradorModel> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
+                    return NotFound(new ServiceResponse<ColaboradorDTO> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
                 }
                 else
                 {
@@ -133,12 +144,12 @@ namespace Api_test.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<ColaboradorModel> { Mensagem = $"Ocorreu um erro ao atualizar o colaborador: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<ColaboradorDTO> { Mensagem = $"Ocorreu um erro ao atualizar o colaborador: {ex.Message}", Sucesso = false });
             }
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchColaboradorModel(int id, JsonPatchDocument<ColaboradorModel> patchDocument)
+        public async Task<IActionResult> PatchColaborador(int id, JsonPatchDocument<ColaboradorModel> patchDocument)
         {
             try
             {

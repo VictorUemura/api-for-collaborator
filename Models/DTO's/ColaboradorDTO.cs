@@ -15,6 +15,8 @@ namespace Api_test.Models
         public string? Telefone { get; set; }
         public string? Email { get; set; }
         public string? Cargo { get; set; }
+        public DateTime DataDeCriacao { get; set; } = DateTime.Now.ToLocalTime();
+        public DateTime DataDeAlteracao { get; set; } = DateTime.Now.ToLocalTime();
     }
 }
 

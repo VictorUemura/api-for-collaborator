@@ -1,5 +1,6 @@
 using FluentValidation;
 using Api_test.Models;
+using Api_test.Enums;
 
 namespace Api_test.Validators
 {
@@ -27,7 +28,8 @@ namespace Api_test.Validators
                 .NotEmpty().WithMessage("O número de telefone do colaborador é obrigatório.");
 
             RuleFor(x => x.Cargo)
-                .NotNull().WithMessage("O cargo do colaborador é obrigatório.");
+                .NotNull().WithMessage("O cargo do colaborador é obrigatório.")
+                .Must(x => Enum.GetNames(typeof(Cargo)).Contains(x)).WithMessage("Cargo inválido.");
         }
     }
 }

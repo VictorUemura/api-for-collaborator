@@ -22,22 +22,8 @@ namespace Api_test.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<ServiceResponse<IEnumerable<DocumentoModel>>>> GetDocumentoModel()
-        {
-            try
-            {
-                var documentos = await _context.Documentos.ToListAsync();
-                return Ok(new ServiceResponse<IEnumerable<DocumentoModel>> { Dados = documentos, Mensagem = "Documentos recuperados com sucesso." });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ServiceResponse<IEnumerable<DocumentoModel>> { Mensagem = $"Ocorreu um erro ao recuperar os documentos: {ex.Message}", Sucesso = false });
-            }
-        }
-
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDocumentoModel(int id)
+        public async Task<IActionResult> DeleteDocumento(int id)
         {
             try
             {
@@ -94,7 +80,7 @@ namespace Api_test.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDocumentoModel(long id, DocumentoModel documentoModel)
+        public async Task<IActionResult> PutDocumento(long id, DocumentoDTO documentoModel)
         {
             try
             {
@@ -107,54 +93,7 @@ namespace Api_test.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return NoContent();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DocumentoModelExist(id))
-                {
-                    return NotFound(new ServiceResponse<DocumentoModel> { Mensagem = "Documento não encontrado.", Sucesso = false });
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ServiceResponse<DocumentoModel> { Mensagem = $"Ocorreu um erro ao atualizar o documento: {ex.Message}", Sucesso = false });
-            }
-        }
-
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> PatchDocumentoModel(int id, JsonPatchDocument<DocumentoModel> patchDocument)
-        {
-            try
-            {
-                if (patchDocument == null)
-                {
-                    return BadRequest(new ServiceResponse<DocumentoModel> { Mensagem = "O documento de patch não pode ser nulo.", Sucesso = false });
-                }
-
-                var documentoModel = await _context.Documentos.FindAsync(id);
-
-                if (documentoModel == null)
-                {
-                    return NotFound(new ServiceResponse<DocumentoModel> { Mensagem = "Documento não encontrado.", Sucesso = false });
-                }
-
-                patchDocument.ApplyTo(documentoModel, ModelState);
-
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(new ServiceResponse<DocumentoModel> { Mensagem = "As modificações aplicadas não são válidas.", Sucesso = false });
-                }
-
-                _context.Entry(documentoModel).State = EntityState.Modified;
-
-                await _context.SaveChangesAsync();
-
-                return NoContent();
+                return Ok();
             }
             catch (DbUpdateConcurrencyException)
             {

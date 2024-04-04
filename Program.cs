@@ -22,7 +22,7 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<IValidator<ColaboradorModel>, ColaboradorValidatorModel>();
+builder.Services.AddTransient<IValidator<ColaboradorDTO>, ColaboradorValidatorModel>();
 
 var app = builder.Build();
 
