@@ -57,16 +57,37 @@ namespace Api.Migrations
                     table.PrimaryKey("PK_Documentos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.Sql(@"
+                CREATE TRIGGER atualizar_data_criacao BEFORE INSERT ON colaboradores
+                FOR EACH ROW
+                BEGIN
+                    SET NEW.DataDeCriacao = CURRENT_TIMESTAMP();
+                END;
+            ");
+
+            migrationBuilder.Sql(@"
+                CREATE TRIGGER atualizar_data_alteracao BEFORE UPDATE ON colaboradores
+                FOR EACH ROW
+                BEGIN
+                    SET NEW.DataDeAlteracao = CURRENT_TIMESTAMP();
+                END;
+            ");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS atualizar_data_alteracao;");
+
+            migrationBuilder.Sql("DROP TRIGGER IF EXISTS atualizar_data_criacao;");
+
             migrationBuilder.DropTable(
                 name: "Colaboradores");
 
             migrationBuilder.DropTable(
                 name: "Documentos");
+
         }
     }
 }
