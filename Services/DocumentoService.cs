@@ -58,11 +58,21 @@ namespace Api_test.Services
             {
                 case "Estudante":
                     return TipoDocumento.Estudante;
-                case "Corporativo":
+                case "Pessoal":
                     return TipoDocumento.Pessoal;
                 default:
                     throw new ArgumentException("Tipo de documento inválido.");
             }
+        }
+
+        public DocumentoInfoDTO ConvertModelParaInfoDTO(DocumentoModel model)
+        {
+            return new DocumentoInfoDTO
+            {
+                Id = model.Id,
+                Tipo = model.Tipo.ToString(),
+                IdColaborador = model.IdColaborador
+            };
         }
     }
 }

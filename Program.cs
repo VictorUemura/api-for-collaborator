@@ -23,6 +23,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IValidator<ColaboradorDTO>, ColaboradorValidatorModel>();
+builder.Services.AddTransient<IValidator<DocumentoDTO>, DocumentoValidatorModel>();
 
 var app = builder.Build();
 
