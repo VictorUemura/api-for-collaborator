@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using Api_test.Enums;
 
-namespace Api_test.Models
+namespace Api_test.Models.Response
 {
-    public class ColaboradorDTO
+    public class ColaboradorResponse
     {
         [Key]
         public int Id { get; set; }

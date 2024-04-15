@@ -1,12 +1,13 @@
 using Api_test.Enums;
 using Api_test.Models;
+using Api_test.Models.Response;
 using System;
 
-namespace Api_test.Services
+namespace Api_test.Converters
 {
-    public class ColaboradorService
+    public class ColaboradorConverter
     {
-        public ColaboradorModel ConverterParaModel(ColaboradorDTO dto)
+        public ColaboradorModel ConverterParaModel(ColaboradorResponse dto)
         {
             return new ColaboradorModel
             {
@@ -20,13 +21,13 @@ namespace Api_test.Services
                 Email = dto.Email,
                 DataDeCriacao = DateTime.Now.ToLocalTime(),
                 DataDeAlteracao = DateTime.Now.ToLocalTime(),
-                Cargo = ParseCargo(dto.Cargo)
+                Cargo = Enum.Parse<Cargo>(dto.Cargo)
             };
         }
 
-        public ColaboradorDTO ConverterParaDTO(ColaboradorModel model)
+        public ColaboradorResponse ConverterParaDTO(ColaboradorModel model)
         {
-            return new ColaboradorDTO
+            return new ColaboradorResponse
             {
                 Id = model.Id,
                 Nome = model.Nome,
@@ -40,25 +41,6 @@ namespace Api_test.Services
                 DataDeCriacao = model.DataDeCriacao,
                 DataDeAlteracao = model.DataDeAlteracao
             };
-        }
-
-        private Cargo ParseCargo(string cargo)
-        {
-            switch (cargo)
-            {
-                case "Gerente":
-                    return Cargo.Gerente;
-                case "Desenvolvedor":
-                    return Cargo.Desenvolvedor;
-                case "Analista":
-                    return Cargo.Analista;
-                case "Designer":
-                    return Cargo.Designer;
-                case "Administrador":
-                    return Cargo.Administrador;
-                default:
-                    throw new ArgumentException("Cargo inválido.");
-            }
         }
     }
 }

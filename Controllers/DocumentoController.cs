@@ -2,7 +2,7 @@ using Api_test.Models;
 using Api_test.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Api_test.Services;
+using Api_test.Converters;
 using Api_test.Validators;
 using FluentValidation;
 using Api_test.Models.Response;
@@ -36,7 +36,7 @@ namespace Api_test.Controllers
 
                 _context.Documentos.Remove(documentoModel);
                 await _context.SaveChangesAsync();
-                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento excluído com sucesso." });
+                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoConverter().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento excluído com sucesso." });
             }
             catch (Exception ex)
             {
@@ -50,7 +50,7 @@ namespace Api_test.Controllers
             try
             {
                 var documentos = await _context.Documentos.ToListAsync();
-                var documentosInfoDTO = documentos.Select(c => new DocumentoService().ConvertModelParaInfoDTO(c));
+                var documentosInfoDTO = documentos.Select(c => new DocumentoConverter().ConvertModelParaInfoDTO(c));
                 return Ok(new ServiceResponse<IEnumerable<DocumentoInfoResponse>> { Dados = documentosInfoDTO, Mensagem = "Informacoes de documentos recuperadas com sucesso." });
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace Api_test.Controllers
                     return NotFound(new ServiceResponse<DocumentoCadastroRequest> { Mensagem = "Documento não encontrado.", Sucesso = false });
                 }
 
-                var documentoDTO = new DocumentoService().ConverterParaDTO(documentoModel);
+                var documentoDTO = new DocumentoConverter().ConverterParaDTO(documentoModel);
 
                 Response.ContentType = "application/octet-stream";
 
@@ -100,11 +100,11 @@ namespace Api_test.Controllers
                 }
                 */
 
-                var documentoModel = new DocumentoService().ConverterParaModel(documentoDTO);
+                var documentoModel = new DocumentoConverter().ConverterParaModel(documentoDTO);
                 _context.Documentos.Add(documentoModel);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetDocumento), new { id = documentoModel.Id }, new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento criado com sucesso." });
+                return CreatedAtAction(nameof(GetDocumento), new { id = documentoModel.Id }, new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoConverter().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento criado com sucesso." });
             }
             catch (Exception ex)
             {
@@ -129,12 +129,12 @@ namespace Api_test.Controllers
                 {
                     return BadRequest(new ServiceResponse<DocumentoModel> { Mensagem = "ID do documento na URL não corresponde ao ID do documento no corpo da solicitação.", Sucesso = false });
                 }
-                var documentoModel = new DocumentoService().ConverterParaModel(documentoDTO);
+                var documentoModel = new DocumentoConverter().ConverterParaModel(documentoDTO);
                 _context.Entry(documentoModel).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
 
-                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento atualizado com sucesso." });
+                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoConverter().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento atualizado com sucesso." });
             }
             catch (DbUpdateConcurrencyException)
             {

@@ -3,16 +3,16 @@ using Api_test.Models;
 using Api_test.Models.Request;
 using Api_test.Models.Response;
 
-namespace Api_test.Services
+namespace Api_test.Converters
 {
-    public class DocumentoService
+    public class DocumentoConverter
     {
         public DocumentoModel ConverterParaModel(DocumentoCadastroRequest dto)
         {
             return new DocumentoModel
             {
                 Id = dto.Id,
-                Tipo = ConverteTipoDocumento(dto.Tipo),
+                Tipo = Enum.Parse<TipoDocumento>(dto.Tipo),
                 IdColaborador = dto.IdColaborador,
                 Arquivo = ConverteIFileParaByte(dto.Arquivo)
             };
@@ -52,18 +52,6 @@ namespace Api_test.Services
                     Headers = new HeaderDictionary(),
                     ContentType = "application/octet-stream" // Defina o tipo de conteúdo conforme necessário
                 };
-            }
-        }
-        private TipoDocumento ConverteTipoDocumento(string tipo)
-        {
-            switch (tipo)
-            {
-                case "Estudante":
-                    return TipoDocumento.Estudante;
-                case "Pessoal":
-                    return TipoDocumento.Pessoal;
-                default:
-                    throw new ArgumentException("Tipo de documento inválido.");
             }
         }
 
