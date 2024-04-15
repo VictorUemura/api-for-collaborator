@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Api_test.Services;
 using Api_test.Validators;
 using FluentValidation;
+using Api_test.Models.Response;
+using Api_test.Models.Request;
 
 namespace Api_test.Controllers
 {
@@ -13,9 +15,9 @@ namespace Api_test.Controllers
     public class DocumentoController : ControllerBase
     {
         private readonly ApplicationContext _context;
-        private readonly IValidator<DocumentoDTO> _validator;
+        private readonly IValidator<DocumentoCadastroRequest> _validator;
 
-        public DocumentoController(ApplicationContext context, IValidator<DocumentoDTO> validator)
+        public DocumentoController(ApplicationContext context, IValidator<DocumentoCadastroRequest> validator)
         {
             _context = context;
             _validator = validator;
@@ -29,16 +31,16 @@ namespace Api_test.Controllers
                 var documentoModel = await _context.Documentos.FindAsync(id);
                 if (documentoModel == null)
                 {
-                    return NotFound(new ServiceResponse<DocumentoInfoDTO> { Mensagem = "Documento não encontrado.", Sucesso = false });
+                    return NotFound(new ServiceResponse<DocumentoInfoResponse> { Mensagem = "Documento não encontrado.", Sucesso = false });
                 }
 
                 _context.Documentos.Remove(documentoModel);
                 await _context.SaveChangesAsync();
-                return Ok(new ServiceResponse<DocumentoInfoDTO> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento excluído com sucesso." });
+                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento excluído com sucesso." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<DocumentoInfoDTO> { Mensagem = $"Ocorreu um erro ao excluir o documento: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<DocumentoInfoResponse> { Mensagem = $"Ocorreu um erro ao excluir o documento: {ex.Message}", Sucesso = false });
             }
         }
 
@@ -49,11 +51,11 @@ namespace Api_test.Controllers
             {
                 var documentos = await _context.Documentos.ToListAsync();
                 var documentosInfoDTO = documentos.Select(c => new DocumentoService().ConvertModelParaInfoDTO(c));
-                return Ok(new ServiceResponse<IEnumerable<DocumentoInfoDTO>> { Dados = documentosInfoDTO, Mensagem = "Informacoes de documentos recuperadas com sucesso." });
+                return Ok(new ServiceResponse<IEnumerable<DocumentoInfoResponse>> { Dados = documentosInfoDTO, Mensagem = "Informacoes de documentos recuperadas com sucesso." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<IEnumerable<DocumentoInfoDTO>> { Mensagem = $"Ocorreu um erro ao recuperar os documentos: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<IEnumerable<DocumentoInfoResponse>> { Mensagem = $"Ocorreu um erro ao recuperar os documentos: {ex.Message}", Sucesso = false });
             }
         }
 
@@ -66,7 +68,7 @@ namespace Api_test.Controllers
 
                 if (documentoModel == null)
                 {
-                    return NotFound(new ServiceResponse<DocumentoDTO> { Mensagem = "Documento não encontrado.", Sucesso = false });
+                    return NotFound(new ServiceResponse<DocumentoCadastroRequest> { Mensagem = "Documento não encontrado.", Sucesso = false });
                 }
 
                 var documentoDTO = new DocumentoService().ConverterParaDTO(documentoModel);
@@ -80,12 +82,12 @@ namespace Api_test.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<DocumentoDTO> { Mensagem = $"Ocorreu um erro ao recuperar o documento: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<DocumentoCadastroRequest> { Mensagem = $"Ocorreu um erro ao recuperar o documento: {ex.Message}", Sucesso = false });
             }
         }
 
         [HttpPost]
-        public async Task<ActionResult<ServiceResponse<DocumentoDTO>>> PostDocumento(DocumentoDTO documentoDTO)
+        public async Task<ActionResult<ServiceResponse<DocumentoCadastroRequest>>> PostDocumento(DocumentoCadastroRequest documentoDTO)
         {
             try
             {
@@ -94,7 +96,7 @@ namespace Api_test.Controllers
                 if (!validationResult.IsValid)
                 {
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                    return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = erros.First(), Sucesso = false });
+                    return BadRequest(new ServiceResponse<DocumentoInfoResponse> { Mensagem = erros.First(), Sucesso = false });
                 }
                 */
 
@@ -102,23 +104,23 @@ namespace Api_test.Controllers
                 _context.Documentos.Add(documentoModel);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetDocumento), new { id = documentoModel.Id }, new ServiceResponse<DocumentoInfoDTO> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento criado com sucesso." });
+                return CreatedAtAction(nameof(GetDocumento), new { id = documentoModel.Id }, new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento criado com sucesso." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ServiceResponse<DocumentoInfoDTO> { Mensagem = $"Ocorreu um erro ao criar o documento: {ex.Message}", Sucesso = false });
+                return StatusCode(500, new ServiceResponse<DocumentoInfoResponse> { Mensagem = $"Ocorreu um erro ao criar o documento: {ex.Message}", Sucesso = false });
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDocumento(long id, DocumentoDTO documentoDTO)
+        public async Task<IActionResult> PutDocumento(long id, DocumentoCadastroRequest documentoDTO)
         {
             /*
             var validationResult = _validator.Validate(documentoDTO);
             if (!validationResult.IsValid)
             {
                 var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                return BadRequest(new ServiceResponse<DocumentoInfoDTO> { Mensagem = erros.First(), Sucesso = false });
+                return BadRequest(new ServiceResponse<DocumentoInfoResponse> { Mensagem = erros.First(), Sucesso = false });
             }
             */
             try
@@ -132,7 +134,7 @@ namespace Api_test.Controllers
 
                 await _context.SaveChangesAsync();
 
-                return Ok(new ServiceResponse<DocumentoInfoDTO> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento atualizado com sucesso." });
+                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoService().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento atualizado com sucesso." });
             }
             catch (DbUpdateConcurrencyException)
             {

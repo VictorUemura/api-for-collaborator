@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using Api_test.Enums;
 
-namespace Api_test.Models
+namespace Api_test.Models.Response
 {
-    public class DocumentoInfoDTO
+    public class DocumentoInfoResponse
     {
         [Key]
         public int Id { get; set; }

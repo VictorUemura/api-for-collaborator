@@ -25,6 +25,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddTransient<IValidator<DocumentoDTO>, DocumentoValidatorModel>();
 builder.Services.AddTransient<IValidator<ColaboradorDTO>, ColaboradorValidatorModel>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

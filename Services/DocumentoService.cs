@@ -1,11 +1,13 @@
 using Api_test.Enums;
 using Api_test.Models;
+using Api_test.Models.Request;
+using Api_test.Models.Response;
 
 namespace Api_test.Services
 {
     public class DocumentoService
     {
-        public DocumentoModel ConverterParaModel(DocumentoDTO dto)
+        public DocumentoModel ConverterParaModel(DocumentoCadastroRequest dto)
         {
             return new DocumentoModel
             {
@@ -16,9 +18,9 @@ namespace Api_test.Services
             };
         }
 
-        public DocumentoDTO ConverterParaDTO(DocumentoModel model)
+        public DocumentoCadastroRequest ConverterParaDTO(DocumentoModel model)
         {
-            return new DocumentoDTO
+            return new DocumentoCadastroRequest
             {
                 Id = model.Id,
                 Tipo = model.Tipo.ToString(),
@@ -65,9 +67,9 @@ namespace Api_test.Services
             }
         }
 
-        public DocumentoInfoDTO ConvertModelParaInfoDTO(DocumentoModel model)
+        public DocumentoInfoResponse ConvertModelParaInfoDTO(DocumentoModel model)
         {
-            return new DocumentoInfoDTO
+            return new DocumentoInfoResponse
             {
                 Id = model.Id,
                 Tipo = model.Tipo.ToString(),
