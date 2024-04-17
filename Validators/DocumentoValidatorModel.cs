@@ -1,7 +1,8 @@
 using FluentValidation;
-using Api_test.Models;
-using Api_test.Enums;
 using Api_test.Models.Request;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace Api_test.Validators
 {
@@ -10,18 +11,15 @@ namespace Api_test.Validators
         public DocumentoValidatorModel()
         {
             RuleFor(x => x.Tipo)
-            .NotNull().WithMessage("O tipo do documento é obrigatório.")
-                .NotEmpty().WithMessage("O tipo do documento é obrigatório.")
-                .Must(x => Enum.GetNames(typeof(TipoDocumento)).Contains(x)).WithMessage("Tipo de documento inválido.");
+                .NotEmpty().WithMessage("O tipo do documento é obrigatório.");
 
             RuleFor(x => x.IdColaborador)
-            .NotNull().WithMessage("O ID do colaborador é obrigatório.")
-                .NotEmpty().WithMessage("O ID do colaborador é obrigatório.");
+                .NotEmpty().WithMessage("O ID do colaborador é obrigatório.")
+                .GreaterThan(0).WithMessage("O ID do colaborador deve ser maior que zero.");
 
             RuleFor(x => x.Arquivo)
-            .NotEmpty().WithMessage("O arquivo do documento é obrigatório.")
                 .NotNull().WithMessage("O arquivo do documento é obrigatório.")
-                .Must(x => x.FileName.EndsWith(".pdf")).WithMessage("O arquivo deve ser do tipo PDF.");
+                .Must(x => x is not null && x.ContentType.Equals("application/pdf")).WithMessage("O arquivo do documento deve ser no formato PDF.");
         }
     }
 }

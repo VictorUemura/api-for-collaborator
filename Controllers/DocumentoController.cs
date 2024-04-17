@@ -20,7 +20,7 @@ namespace Api_test.Controllers
         public DocumentoController(ApplicationContext context, IValidator<DocumentoCadastroRequest> validator)
         {
             _context = context;
-            _validator = validator;
+            _validator = validator; 
         }
 
         [HttpDelete("{id}")]
