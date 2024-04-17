@@ -4,7 +4,7 @@ namespace Api_test.Models.Request
     {
         public long Id { get; set; }
         public string? Tipo { get; set; }
-        public int IdColaborador { get; set; }
+        public long IdColaborador { get; set; }
         public IFormFile? Arquivo { get; set; }
     }
 }

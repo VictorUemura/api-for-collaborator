@@ -8,7 +8,7 @@ namespace Api_test.Models
         [Key]
         public long Id { get; set; }
         public TipoDocumento Tipo { get; set; }
-        public int IdColaborador { get; set; }
+        public long IdColaborador { get; set; }
         public byte[] Arquivo { get; set; }
     }
 

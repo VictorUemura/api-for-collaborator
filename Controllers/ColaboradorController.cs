@@ -46,7 +46,7 @@ namespace Api_test.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetColaborador(int id)
+        public async Task<IActionResult> GetColaborador(long id)
         {
             try
             {
@@ -83,7 +83,9 @@ namespace Api_test.Controllers
                 _context.Colaboradores.Add(colaboradorModel);
                 await _context.SaveChangesAsync();
 
-                return CreatedAtAction(nameof(GetColaborador), new { id = colaboradorModel.Id }, new ServiceResponse<ColaboradorModel> { Dados = colaboradorModel, Mensagem = "Colaborador criado com sucesso." });
+                var colaboradorResponse = new ColaboradorConverter().ConverterParaDTO(colaboradorModel);
+
+                return CreatedAtAction(nameof(GetColaborador), new { id = colaboradorModel.Id }, new ServiceResponse<ColaboradorResponse> { Dados = colaboradorResponse, Mensagem = "Colaborador criado com sucesso." });
             }
             catch (Exception ex)
             {
@@ -140,7 +142,7 @@ namespace Api_test.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColaborador(int id)
+        public async Task<IActionResult> DeleteColaborador(long id)
         {
             try
             {

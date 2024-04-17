@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Api.Migrations
 {
     /// <inheritdoc />
-    public partial class PrimeiraMigration : Migration
+    public partial class firstmigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,12 +19,11 @@ namespace Api.Migrations
                 name: "Colaboradores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nome = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Genero = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Genero = table.Column<int>(type: "int", nullable: false),
                     Idade = table.Column<int>(type: "int", nullable: false),
                     Ativo = table.Column<bool>(type: "tinyint(1)", nullable: false),
                     DataNasc = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -46,10 +45,10 @@ namespace Api.Migrations
                 name: "Documentos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Tipo = table.Column<int>(type: "int", nullable: false),
-                    IdColaborador = table.Column<int>(type: "int", nullable: false),
+                    IdColaborador = table.Column<long>(type: "bigint", nullable: false),
                     Arquivo = table.Column<byte[]>(type: "longblob", nullable: false)
                 },
                 constraints: table =>
@@ -57,12 +56,11 @@ namespace Api.Migrations
                     table.PrimaryKey("PK_Documentos", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
-
             migrationBuilder.AddForeignKey(
                 name: "FK_Documentos_Colaboradores",
-                table: "documentos",
+                table: "Documentos",
                 column: "IdColaborador",
-                principalTable: "colaboradores",
+                principalTable: "Colaboradores",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -72,14 +70,13 @@ namespace Api.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_Documentos_Colaboradores",
-                table: "documentos");
+                table: "Documentos");
 
             migrationBuilder.DropTable(
                 name: "Colaboradores");
 
             migrationBuilder.DropTable(
                 name: "Documentos");
-
         }
     }
 }

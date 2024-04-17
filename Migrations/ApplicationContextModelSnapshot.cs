@@ -24,11 +24,11 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api_test.Models.ColaboradorModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<bool>("Ativo")
                         .HasColumnType("tinyint(1)");
@@ -48,8 +48,8 @@ namespace Api.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Genero")
-                        .HasColumnType("longtext");
+                    b.Property<int>("Genero")
+                        .HasColumnType("int");
 
                     b.Property<int>("Idade")
                         .HasColumnType("int");
@@ -67,18 +67,18 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api_test.Models.DocumentoModel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<byte[]>("Arquivo")
                         .IsRequired()
                         .HasColumnType("longblob");
 
-                    b.Property<int>("IdColaborador")
-                        .HasColumnType("int");
+                    b.Property<long>("IdColaborador")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int");

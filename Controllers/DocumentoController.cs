@@ -40,7 +40,7 @@ namespace Api_test.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetDocumento(int id)
+        public async Task<IActionResult> GetDocumento(long id)
         {
             try
             {
@@ -146,7 +146,7 @@ namespace Api_test.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDocumento(int id)
+        public async Task<IActionResult> DeleteDocumento(long id)
         {
             try
             {
