@@ -128,15 +128,19 @@ namespace Api_test.Controllers
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                     return BadRequest(new ServiceResponse<ColaboradorResponse> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
                 }
-
-                var colaboradorAtual = await _context.Colaboradores.FindAsync(id);
                 var colaboradorModel = new ColaboradorConverter().ConverterPutParaModel(colab);
+                var existingColaborador = await _context.Colaboradores.FindAsync(id);
+                if (existingColaborador == null)
+                {
+                    return NotFound(new ServiceResponse<ColaboradorResponse> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
+                }
+                _context.Entry(existingColaborador).CurrentValues.SetValues(colaboradorModel);
+                colaboradorModel.DataDeCriacao = existingColaborador.DataDeCriacao;
+                colaboradorModel.DataDeAlteracao = DateTime.Now;
+                _context.Entry(existingColaborador).State = EntityState.Modified;
 
-                colaboradorModel.DataDeAlteracao = colaboradorAtual.DataDeAlteracao;
-                _context.Entry(colaboradorModel).State = EntityState.Modified;
-
-                var colaboradorResponse = new ColaboradorConverter().ConverterParaDTO(colaboradorModel);
                 await _context.SaveChangesAsync();
+                var colaboradorResponse = new ColaboradorConverter().ConverterParaDTO(existingColaborador);
                 return Ok(new ServiceResponse<ColaboradorResponse> { Dados = colaboradorResponse, Mensagem = "Colaborador atualizado com sucesso." });
             }
             catch (DbUpdateConcurrencyException)

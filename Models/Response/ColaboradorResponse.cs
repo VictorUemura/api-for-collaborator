@@ -6,7 +6,7 @@ namespace Api_test.Models.Response
     public class ColaboradorResponse
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string? Nome { get; set; }
         public string? Genero { get; set; }
         public int Idade { get; set; }

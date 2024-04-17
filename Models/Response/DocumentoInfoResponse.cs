@@ -7,7 +7,7 @@ namespace Api_test.Models.Response
     public class DocumentoInfoResponse
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string? Tipo { get; set; }
         public int IdColaborador { get; set; }
     

@@ -2,7 +2,7 @@ namespace Api_test.Models.Request
 {
     public class ColaboradorPutRequest
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public string? Nome { get; set; }
         public string? Genero { get; set; }
         public int Idade { get; set; }
