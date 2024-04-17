@@ -15,12 +15,14 @@ namespace Api_test.Controllers
     public class ColaboradorController : ControllerBase
     {
         private readonly ApplicationContext _context;
-        private readonly IValidator<ColaboradorResponse> _validator;
+        private readonly IValidator<ColaboradorCadastroRequest> _validator;
+        private readonly IValidator<ColaboradorPutRequest> _validatorPut;
 
-        public ColaboradorController(ApplicationContext context, IValidator<ColaboradorResponse> validator)
+        public ColaboradorController(ApplicationContext context, IValidator<ColaboradorCadastroRequest> validator, IValidator<ColaboradorPutRequest> validatorPut)
         {
             _context = context;
             _validator = validator;
+            _validatorPut = validatorPut;
         }
 
         private bool ColaboradorModelExist(long id)
@@ -86,19 +88,19 @@ namespace Api_test.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostColaborador(ServiceRequest<ColaboradorResponse> res)
+        public async Task<IActionResult> PostColaborador(ServiceRequest<ColaboradorCadastroRequest> req)
         {
-            var colaboradorDTO = res.Dados;
-            var validationResult = _validator.Validate(colaboradorDTO);
-            if (!validationResult.IsValid)
-            {
-                var erros = validationResult.Errors.Select(e => e.ErrorMessage);
-                return BadRequest(new ServiceResponse<ColaboradorResponse> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
-            }
 
             try
             {
-                var colaboradorModel = new ColaboradorConverter().ConverterParaModel(colaboradorDTO);
+                var colab = req.Dados;
+                var validationResult = _validator.Validate(colab);
+                if (!validationResult.IsValid)
+                {
+                    var erros = validationResult.Errors.Select(e => e.ErrorMessage);
+                    return BadRequest(new ServiceResponse<ColaboradorResponse> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
+                }
+                var colaboradorModel = new ColaboradorConverter().ConverterCadastroParaModel(colab);
                 _context.Colaboradores.Add(colaboradorModel);
                 await _context.SaveChangesAsync();
 
@@ -111,13 +113,13 @@ namespace Api_test.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColaborador(long id, ServiceResponse<ColaboradorResponse> res)
+        public async Task<IActionResult> PutColaborador(long id, ServiceResponse<ColaboradorPutRequest> req)
         {
-            var colaboradorDTO = res.Dados;
-            var validationResult = _validator.Validate(colaboradorDTO);
+            var colab = req.Dados;
+            var validationResult = _validatorPut.Validate(colab);
             try
             {
-                if (id != colaboradorDTO.Id)
+                if (id != colab.Id)
                 {
                     return BadRequest(new ServiceResponse<ColaboradorResponse> { Mensagem = "ID do colaborador na URL não corresponde ao ID do colaborador no corpo da solicitação.", Sucesso = false });
                 }
@@ -126,11 +128,12 @@ namespace Api_test.Controllers
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                     return BadRequest(new ServiceResponse<ColaboradorResponse> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
                 }
-                var colaboradorModel = new ColaboradorConverter().ConverterParaModel(colaboradorDTO);
+                var colaboradorModel = new ColaboradorConverter().ConverterPutParaModel(colab);
                 _context.Entry(colaboradorModel).State = EntityState.Modified;
 
+                var colaboradorResponse = new ColaboradorConverter().ConverterParaDTO(colaboradorModel);
                 await _context.SaveChangesAsync();
-                return Ok(new ServiceResponse<ColaboradorResponse> { Dados = colaboradorDTO, Mensagem = "Colaborador atualizado com sucesso." });
+                return Ok(new ServiceResponse<ColaboradorResponse> { Dados = colaboradorResponse, Mensagem = "Colaborador atualizado com sucesso." });
             }
             catch (DbUpdateConcurrencyException)
             {

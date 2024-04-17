@@ -4,6 +4,8 @@ using Api_test.Utilities;
 using Api_test.Validators;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
+using Api_test.Models.Request;
+using Api_test.Models.Response;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +24,9 @@ builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient<IValidator<DocumentoDTO>, DocumentoValidatorModel>();
-builder.Services.AddTransient<IValidator<ColaboradorDTO>, ColaboradorValidatorModel>();
+builder.Services.AddSingleton<IValidator<DocumentoCadastroRequest>, DocumentoValidatorModel>();
+builder.Services.AddTransient<IValidator<ColaboradorPutRequest>, ColaboradorPutRequestValidator>();
+builder.Services.AddTransient<IValidator<ColaboradorCadastroRequest>, ColaboradorValidatorModel>();
 
 builder.Services.AddCors(options =>
 {

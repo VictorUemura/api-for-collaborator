@@ -1,7 +1,7 @@
 using Api_test.Enums;
 using Api_test.Models;
 using Api_test.Models.Response;
-using System;
+using Api_test.Models.Request;
 
 namespace Api_test.Converters
 {
@@ -40,6 +40,36 @@ namespace Api_test.Converters
                 Cargo = model.Cargo.ToString(),
                 DataDeCriacao = model.DataDeCriacao,
                 DataDeAlteracao = model.DataDeAlteracao
+            };
+        }
+
+        public ColaboradorModel ConverterCadastroParaModel(ColaboradorCadastroRequest dto)
+        {
+            return new ColaboradorModel
+            {
+                Nome = dto.Nome,
+                Genero = dto.Genero,
+                Idade = dto.Idade,
+                DataNasc = dto.DataNasc,
+                Telefone = dto.Telefone,
+                Email = dto.Email,
+                Cargo = Enum.Parse<Cargo>(dto.Cargo),
+            };
+        }
+        public ColaboradorModel ConverterPutParaModel(ColaboradorPutRequest dto)
+        {
+            return new ColaboradorModel
+            {
+                Id = dto.Id,
+                Nome = dto.Nome,
+                Genero = dto.Genero,
+                Idade = dto.Idade,
+                Ativo = dto.Ativo,
+                DataNasc = dto.DataNasc,
+                Telefone = dto.Telefone,
+                Email = dto.Email,
+                Cargo = Enum.Parse<Cargo>(dto.Cargo),
+                DataDeAlteracao = DateTime.Now.ToLocalTime()
             };
         }
     }

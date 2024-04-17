@@ -91,15 +91,14 @@ namespace Api_test.Controllers
         {
             try
             {
-                /*
+                
                 var validationResult = _validator.Validate(documentoDTO);
                 if (!validationResult.IsValid)
                 {
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                     return BadRequest(new ServiceResponse<DocumentoInfoResponse> { Mensagem = erros.First(), Sucesso = false });
                 }
-                */
-
+                
                 var documentoModel = new DocumentoConverter().ConverterParaModel(documentoDTO);
                 _context.Documentos.Add(documentoModel);
                 await _context.SaveChangesAsync();
@@ -115,14 +114,14 @@ namespace Api_test.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDocumento(long id, DocumentoCadastroRequest documentoDTO)
         {
-            /*
+            
             var validationResult = _validator.Validate(documentoDTO);
             if (!validationResult.IsValid)
             {
                 var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                 return BadRequest(new ServiceResponse<DocumentoInfoResponse> { Mensagem = erros.First(), Sucesso = false });
             }
-            */
+            
             try
             {
                 if (id != documentoDTO.Id)

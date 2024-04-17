@@ -1,10 +1,11 @@
 using FluentValidation;
 using Api_test.Models;
 using Api_test.Enums;
+using Api_test.Models.Request;
 
 namespace Api_test.Validators
 {
-    public class DocumentoValidatorModel : AbstractValidator<DocumentoDTO>
+    public class DocumentoValidatorModel : AbstractValidator<DocumentoCadastroRequest>
     {
         public DocumentoValidatorModel()
         {
