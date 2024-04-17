@@ -1,4 +1,6 @@
 using FluentValidation;
+using System;
+using System.Linq;
 using Api_test.Enums;
 using Api_test.Models.Request;
 
@@ -23,7 +25,8 @@ namespace Api_test.Validators
                 .EmailAddress().WithMessage("O email do colaborador deve ser um endereço válido.");
 
             RuleFor(x => x.DataNasc)
-                .NotEmpty().WithMessage("A data de nascimento do colaborador é obrigatória.");
+                .NotEmpty().WithMessage("A data de nascimento do colaborador é obrigatória.")
+                .Must((colaborador, dataNasc) => TerDataNascimentoValida(dataNasc, colaborador)).WithMessage("A data de nascimento do colaborador é inválida ou inconsistente com a idade fornecida.");
 
             RuleFor(x => x.Telefone)
                 .NotEmpty().WithMessage("O número de telefone do colaborador é obrigatório.");
@@ -32,6 +35,13 @@ namespace Api_test.Validators
                 .NotEmpty().WithMessage("O cargo do colaborador é obrigatório.")
                 .NotNull().WithMessage("O cargo do colaborador é obrigatório.")
                 .Must(x => Enum.GetNames(typeof(Cargo)).Contains(x)).WithMessage("Cargo inválido.");
+        }
+
+        private bool TerDataNascimentoValida(DateTime dataNasc, ColaboradorCadastroRequest colaborador)
+        {
+            int idade = DateTime.Today.Year - dataNasc.Year;
+            if (dataNasc.Date > DateTime.Today.AddYears(-idade)) idade--;
+            return idade == colaborador.Idade;
         }
     }
 }
