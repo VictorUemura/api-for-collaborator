@@ -25,27 +25,6 @@ namespace Api_test.Controllers
             _validatorPut = validatorPut;
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDocumento(int id)
-        {
-            try
-            {
-                var documentoModel = await _context.Documentos.FindAsync(id);
-                if (documentoModel == null)
-                {
-                    return NotFound(new ServiceResponse<DocumentoInfoResponse> { Mensagem = "Documento não encontrado.", Sucesso = false });
-                }
-
-                _context.Documentos.Remove(documentoModel);
-                await _context.SaveChangesAsync();
-                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoConverter().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento excluído com sucesso." });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new ServiceResponse<DocumentoInfoResponse> { Mensagem = $"Ocorreu um erro ao excluir o documento: {ex.Message}", Sucesso = false });
-            }
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetListaDocumento()
         {
@@ -164,6 +143,27 @@ namespace Api_test.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new ServiceResponse<DocumentoModel> { Mensagem = $"Ocorreu um erro ao atualizar o documento: {ex.Message}", Sucesso = false });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteDocumento(int id)
+        {
+            try
+            {
+                var documentoModel = await _context.Documentos.FindAsync(id);
+                if (documentoModel == null)
+                {
+                    return NotFound(new ServiceResponse<DocumentoInfoResponse> { Mensagem = "Documento não encontrado.", Sucesso = false });
+                }
+
+                _context.Documentos.Remove(documentoModel);
+                await _context.SaveChangesAsync();
+                return Ok(new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoConverter().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento excluído com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ServiceResponse<DocumentoInfoResponse> { Mensagem = $"Ocorreu um erro ao excluir o documento: {ex.Message}", Sucesso = false });
             }
         }
 

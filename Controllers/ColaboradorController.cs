@@ -45,27 +45,6 @@ namespace Api_test.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteColaborador(int id)
-        {
-            try
-            {
-                var colaboradorModel = await _context.Colaboradores.FindAsync(id);
-                if (colaboradorModel == null)
-                {
-                    return NotFound(new ServiceResponse<object> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
-                }
-
-                _context.Colaboradores.Remove(colaboradorModel);
-                await _context.SaveChangesAsync();
-                return Ok(new ServiceResponse<object> { Mensagem = "Colaborador excluído com sucesso." });
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new ServiceResponse<object> { Mensagem = $"Ocorreu um erro ao excluir o colaborador: {ex.Message}", Sucesso = false });
-            }
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetColaborador(int id)
         {
@@ -157,6 +136,27 @@ namespace Api_test.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new ServiceResponse<ColaboradorResponse> { Mensagem = $"Ocorreu um erro ao atualizar o colaborador: {ex.Message}", Sucesso = false });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteColaborador(int id)
+        {
+            try
+            {
+                var colaboradorModel = await _context.Colaboradores.FindAsync(id);
+                if (colaboradorModel == null)
+                {
+                    return NotFound(new ServiceResponse<object> { Mensagem = "Colaborador não encontrado.", Sucesso = false });
+                }
+
+                _context.Colaboradores.Remove(colaboradorModel);
+                await _context.SaveChangesAsync();
+                return Ok(new ServiceResponse<object> { Mensagem = "Colaborador excluído com sucesso." });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ServiceResponse<object> { Mensagem = $"Ocorreu um erro ao excluir o colaborador: {ex.Message}", Sucesso = false });
             }
         }
 
