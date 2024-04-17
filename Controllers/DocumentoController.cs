@@ -3,7 +3,6 @@ using Api_test.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api_test.Converters;
-using Api_test.Validators;
 using FluentValidation;
 using Api_test.Models.Response;
 using Api_test.Models.Request;

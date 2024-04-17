@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Api_test.Enums;
 
 namespace Api_test.Models.Response
 {

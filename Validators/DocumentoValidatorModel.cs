@@ -1,8 +1,5 @@
 using FluentValidation;
 using Api_test.Models.Request;
-using System;
-using System.IO;
-using System.Linq;
 
 namespace Api_test.Validators
 {
