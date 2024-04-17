@@ -6,9 +6,9 @@ using Api_test.Models.Request;
 
 namespace Api_test.Validators
 {
-    public class ColaboradorValidatorModel : AbstractValidator<ColaboradorCadastroRequest>
+    public class ColaboradorCadastroRequestValidator : AbstractValidator<ColaboradorCadastroRequest>
     {
-        public ColaboradorValidatorModel()
+        public ColaboradorCadastroRequestValidator()
         {
             RuleFor(x => x.Nome)
                 .NotEmpty().WithMessage("O nome do colaborador é obrigatório.");

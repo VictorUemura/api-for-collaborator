@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace Api_test.Validators
 {
-    public class DocumentoValidatorModel : AbstractValidator<DocumentoCadastroRequest>
+    public class DocumentoCadastroRequestValidator : AbstractValidator<DocumentoCadastroRequest>
     {
-        public DocumentoValidatorModel()
+        public DocumentoCadastroRequestValidator()
         {
             RuleFor(x => x.Tipo)
                 .NotEmpty().WithMessage("O tipo do documento é obrigatório.");

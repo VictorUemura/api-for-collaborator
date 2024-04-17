@@ -23,10 +23,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IValidator<DocumentoCadastroRequest>, DocumentoValidatorModel>();
+builder.Services.AddTransient<IValidator<DocumentoCadastroRequest>, DocumentoCadastroRequestValidator>();
 builder.Services.AddTransient<IValidator<DocumentoPutRequest>, DocumentoPutRequestValidator>();
 builder.Services.AddTransient<IValidator<ColaboradorPutRequest>, ColaboradorPutRequestValidator>();
-builder.Services.AddTransient<IValidator<ColaboradorCadastroRequest>, ColaboradorValidatorModel>();
+builder.Services.AddTransient<IValidator<ColaboradorCadastroRequest>, ColaboradorCadastroRequestValidator>();
 
 builder.Services.AddCors(options =>
 {
