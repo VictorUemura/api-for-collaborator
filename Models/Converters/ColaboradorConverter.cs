@@ -13,7 +13,7 @@ namespace Api_test.Converters
             {
                 Id = dto.Id,
                 Nome = dto.Nome,
-                Genero = dto.Genero,
+                Genero = Enum.Parse<Genero>(dto.Genero),
                 Idade = dto.Idade,
                 Ativo = dto.Ativo,
                 DataNasc = dto.DataNasc,
@@ -31,7 +31,7 @@ namespace Api_test.Converters
             {
                 Id = model.Id,
                 Nome = model.Nome,
-                Genero = model.Genero,
+                Genero = model.Genero.ToString(),
                 Idade = model.Idade,
                 Ativo = model.Ativo,
                 DataNasc = model.DataNasc,
@@ -48,7 +48,7 @@ namespace Api_test.Converters
             return new ColaboradorModel
             {
                 Nome = dto.Nome,
-                Genero = dto.Genero,
+                Genero = Enum.Parse<Genero>(dto.Genero),
                 Idade = dto.Idade,
                 DataNasc = dto.DataNasc,
                 Telefone = dto.Telefone,
@@ -62,7 +62,7 @@ namespace Api_test.Converters
             {
                 Id = dto.Id,
                 Nome = dto.Nome,
-                Genero = dto.Genero,
+                Genero = Enum.Parse<Genero>(dto.Genero),
                 Idade = dto.Idade,
                 Ativo = dto.Ativo,
                 DataNasc = dto.DataNasc,

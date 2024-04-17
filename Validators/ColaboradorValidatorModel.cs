@@ -14,7 +14,8 @@ namespace Api_test.Validators
                 .NotEmpty().WithMessage("O nome do colaborador é obrigatório.");
 
             RuleFor(x => x.Genero)
-                .NotEmpty().WithMessage("O gênero do colaborador é obrigatório.");
+                .NotEmpty().WithMessage("O gênero do colaborador é obrigatório.")
+                .Must(x => Enum.GetNames(typeof(Genero)).Contains(x)).WithMessage("Genero inválido.");
 
             RuleFor(x => x.Idade)
                 .NotEmpty().WithMessage("A idade do colaborador é obrigatória.")

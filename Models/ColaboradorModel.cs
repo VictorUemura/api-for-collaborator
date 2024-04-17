@@ -8,7 +8,7 @@ namespace Api_test.Models
         [Key]
         public long Id { get; set; }
         public string? Nome { get; set; }
-        public string? Genero { get; set; }
+        public Genero Genero { get; set; }
         public int Idade { get; set; }
         public bool Ativo { get; set; }
         public DateTime DataNasc { get; set; }
