@@ -11,7 +11,6 @@ namespace Api_test.Converters
         {
             return new DocumentoModel
             {
-                Id = dto.Id,
                 Tipo = Enum.Parse<TipoDocumento>(dto.Tipo),
                 IdColaborador = dto.IdColaborador,
                 Arquivo = ConverteIFileParaByte(dto.Arquivo)
@@ -22,7 +21,6 @@ namespace Api_test.Converters
         {
             return new DocumentoCadastroRequest
             {
-                Id = model.Id,
                 Tipo = model.Tipo.ToString(),
                 IdColaborador = model.IdColaborador,
                 Arquivo = ConverteByteParaIFile(model.Arquivo, model.Id.ToString() + "_" + model.Tipo.ToString() + ".pdf")
@@ -62,6 +60,17 @@ namespace Api_test.Converters
                 Id = model.Id,
                 Tipo = model.Tipo.ToString(),
                 IdColaborador = model.IdColaborador
+            };
+        }
+
+        public DocumentoModel ConvertPutParaModel(DocumentoPutRequest dto)
+        {
+            return new DocumentoModel
+            {
+                Id = dto.Id,
+                Tipo = Enum.Parse<TipoDocumento>(dto.Tipo),
+                IdColaborador = dto.IdColaborador,
+                Arquivo = ConverteIFileParaByte(dto.Arquivo)
             };
         }
     }

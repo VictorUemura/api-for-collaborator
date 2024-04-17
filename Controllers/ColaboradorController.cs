@@ -113,7 +113,7 @@ namespace Api_test.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutColaborador(long id, ServiceResponse<ColaboradorPutRequest> req)
+        public async Task<IActionResult> PutColaborador(long id, ServiceRequest<ColaboradorPutRequest> req)
         {
             var colab = req.Dados;
             var validationResult = _validatorPut.Validate(colab);
@@ -128,7 +128,11 @@ namespace Api_test.Controllers
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                     return BadRequest(new ServiceResponse<ColaboradorResponse> { Mensagem = "Erro de validação: " + erros.First(), Sucesso = false });
                 }
+
+                var colaboradorAtual = await _context.Colaboradores.FindAsync(id);
                 var colaboradorModel = new ColaboradorConverter().ConverterPutParaModel(colab);
+
+                colaboradorModel.DataDeAlteracao = colaboradorAtual.DataDeAlteracao;
                 _context.Entry(colaboradorModel).State = EntityState.Modified;
 
                 var colaboradorResponse = new ColaboradorConverter().ConverterParaDTO(colaboradorModel);

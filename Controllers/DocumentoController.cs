@@ -15,12 +15,14 @@ namespace Api_test.Controllers
     public class DocumentoController : ControllerBase
     {
         private readonly ApplicationContext _context;
-        private readonly IValidator<DocumentoCadastroRequest> _validator;
+        private readonly IValidator<DocumentoCadastroRequest> _validatorCadastro;
+        private readonly IValidator<DocumentoPutRequest> _validatorPut;
 
-        public DocumentoController(ApplicationContext context, IValidator<DocumentoCadastroRequest> validator)
+        public DocumentoController(ApplicationContext context, IValidator<DocumentoCadastroRequest> validatorCadastro, IValidator<DocumentoPutRequest> validatorPut)
         {
             _context = context;
-            _validator = validator; 
+            _validatorCadastro = validatorCadastro;
+            _validatorPut = validatorPut;
         }
 
         [HttpDelete("{id}")]
@@ -91,17 +93,29 @@ namespace Api_test.Controllers
         {
             try
             {
-                
-                var validationResult = _validator.Validate(documentoDTO);
+                var validationResult = _validatorCadastro.Validate(documentoDTO);
                 if (!validationResult.IsValid)
                 {
                     var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                     return BadRequest(new ServiceResponse<DocumentoInfoResponse> { Mensagem = erros.First(), Sucesso = false });
                 }
-                
+
                 var documentoModel = new DocumentoConverter().ConverterParaModel(documentoDTO);
                 _context.Documentos.Add(documentoModel);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    var innerException = ex.InnerException;
+                    while (innerException != null)
+                    {
+                        Console.WriteLine("Inner Exception Message: " + innerException.Message);
+                        innerException = innerException.InnerException;
+                    }
+                    return StatusCode(500, new ServiceResponse<DocumentoInfoResponse> { Mensagem = "Ocorreu um erro ao criar o documento: " + ex.InnerException.Message, Sucesso = false });
+                }
 
                 return CreatedAtAction(nameof(GetDocumento), new { id = documentoModel.Id }, new ServiceResponse<DocumentoInfoResponse> { Dados = new DocumentoConverter().ConvertModelParaInfoDTO(documentoModel), Mensagem = "Documento criado com sucesso." });
             }
@@ -112,23 +126,24 @@ namespace Api_test.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDocumento(long id, DocumentoCadastroRequest documentoDTO)
+        public async Task<IActionResult> PutDocumento(long id, DocumentoPutRequest documentoDTO)
         {
-            
-            var validationResult = _validator.Validate(documentoDTO);
+
+            var validationResult = _validatorPut.Validate(documentoDTO);
             if (!validationResult.IsValid)
             {
                 var erros = validationResult.Errors.Select(e => e.ErrorMessage);
                 return BadRequest(new ServiceResponse<DocumentoInfoResponse> { Mensagem = erros.First(), Sucesso = false });
             }
-            
+
             try
             {
                 if (id != documentoDTO.Id)
                 {
                     return BadRequest(new ServiceResponse<DocumentoModel> { Mensagem = "ID do documento na URL não corresponde ao ID do documento no corpo da solicitação.", Sucesso = false });
                 }
-                var documentoModel = new DocumentoConverter().ConverterParaModel(documentoDTO);
+
+                var documentoModel = new DocumentoConverter().ConvertPutParaModel(documentoDTO);
                 _context.Entry(documentoModel).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();
