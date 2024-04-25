@@ -106,7 +106,6 @@ namespace Api_test.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDocumento(long id, DocumentoPutRequest documentoDTO)
         {
-
             var validationResult = _validatorPut.Validate(documentoDTO);
             if (!validationResult.IsValid)
             {
