@@ -1,4 +1,4 @@
-# Cadastro de colaboradores e documento
+# Cadastro de colaboradores e documentos
 
 Esse projeto tem o intuito de receber informações de cadastro de colaboradores por meio de uma API RESTFul e salva-las em um banco de dados MySql. Após o cadastro também é possível cadastrar um documento associado a esse colaborador cadastrado.
 O objetivo maior foi para colocar em prova as habilidades dos desenvolvedores que participaram desse projeto.
