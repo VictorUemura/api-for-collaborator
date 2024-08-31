@@ -10,6 +10,7 @@ Teste o projeto em sua máquina seguindo as seguintes instruções:
 - Clone o projeto: `git clone https://github.com/VictorUemura/api-for-collaborator.git`;
 - Abra a solução utilizando Visual Studio;
 - Execute no terminal o comando `dotnet ef database update` - Garanta que o Entity Framework esteja devidamente configurado;
+- Execute no terminal o comando `dotnet ef database update`;
 - Execute a aplicação seguindo o protocolo HTTPS;
 
 ### 📋 Pré-requisitos
