@@ -28,4 +28,4 @@ Teste o projeto em sua máquina seguindo as seguintes instruções:
 
 * **Victor Uemura** - *Back-end* - [https://github.com/VictorUemura](https://github.com/VictorUemura);
 * **Fulano De Tal** - *Back-end* - [https://github.com/JeffBianchi](https://github.com/JeffBianchi);
-* **Thatylla** - *Front-end* - Confira em: [https://github.com/tatazzy](https://github.com/tatazzy);
+* **Thatylla** - *Front-end* - [https://github.com/tatazzy](https://github.com/tatazzy);
